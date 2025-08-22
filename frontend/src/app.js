@@ -4,6 +4,8 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 // const API_URL = 'http://localhost:3000/api';
 const API_URL = '/api';
 
+
+
 const useDebounce = (value, delay) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
@@ -30,32 +32,39 @@ function App() {
   const offsetRef = useRef(0);
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
-  const fetchItems = async (isInitial = false) => {
-    if (loading || !hasMore) return;
-    setLoading(true);
+ // frontend/src/App.js
+const fetchItems = async (isInitial = false) => {
+  if (loading || !hasMore) return;
+  setLoading(true);
 
-    const endpoint = isInitial ? `${API_URL}/initial-state` : `${API_URL}/items?offset=${offsetRef.current}&limit=20&query=${debouncedSearchQuery}`;
+  let endpoint;
+  if (isInitial) {
+    endpoint = `${API_URL}/initial-state`;
+  } else {
+    // Corrected URL construction for requests with an offset or query
+    endpoint = `${API_URL}/items?offset=${offsetRef.current}&limit=20&query=${debouncedSearchQuery}`;
+  }
 
-    try {
-      const response = await fetch(endpoint);
-      const data = await response.json();
+  try {
+    const response = await fetch(endpoint);
+    const data = await response.json();
 
-      if (isInitial) {
-        setItems(data.items);
-        setSelectedIds(new Set(data.selectedIds));
-        offsetRef.current = data.items.length;
-      } else {
-        setItems(prevItems => [...prevItems, ...data.items]);
-        offsetRef.current += data.items.length;
-      }
-
-      setHasMore(data.hasMore);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setLoading(false);
+    if (isInitial) {
+      setItems(data.items);
+      setSelectedIds(new Set(data.selectedIds));
+      offsetRef.current = data.items.length;
+    } else {
+      setItems(prevItems => [...prevItems, ...data.items]);
+      offsetRef.current += data.items.length;
     }
-  };
+
+    setHasMore(data.hasMore);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     fetchItems(true);
