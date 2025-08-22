@@ -45,7 +45,7 @@ const fetchItems = async (isInitial = false) => {
   }
 
   try {
-    const response = await fetch(endpoint);
+    const response = await fetch(`${API_URL}/items?offset=0&limit=20`);
     const data = await response.json();
 
     if (isInitial) {
