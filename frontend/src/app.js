@@ -45,7 +45,7 @@ const fetchItems = async (isInitial = false) => {
   }
 
   try {
-    const response = await fetch(`${API_URL}/items?offset=0&limit=20`);
+    const response = await fetch(`https://table-list-pi.vercel.app/api/items?offset=0&limit=20`);
     const data = await response.json();
 
     if (isInitial) {
