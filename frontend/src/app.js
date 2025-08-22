@@ -39,10 +39,10 @@ const fetchItems = async (isInitial = false) => {
 
   let endpoint;
   if (isInitial) {
-    endpoint = `${API_URL}/initial-state`;
+    endpoint = `/api/initial-state`;
   } else {
     // Corrected URL construction for requests with an offset or query
-    endpoint = `${API_URL}/items?offset=${offsetRef.current}&limit=20&query=${debouncedSearchQuery}`;
+    endpoint = `/api/items?offset=${offsetRef.current}&limit=20&query=${debouncedSearchQuery}`;
   }
 
   try {
