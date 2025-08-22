@@ -41,7 +41,6 @@ const fetchItems = async (isInitial = false) => {
   if (isInitial) {
     endpoint = `/api/initial-state`;
   } else {
-    // Corrected URL construction for requests with an offset or query
     endpoint = `/api/items?offset=${offsetRef.current}&limit=20&query=${debouncedSearchQuery}`;
   }
 
