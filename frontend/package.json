@@ -8,8 +8,12 @@
     "react-dom": "^18.3.1"
   },
   "scripts": {
-    "start": "react-scripts start"
-  },
+  "start": "react-scripts start",
+  "build": "react-scripts build",
+  "test": "react-scripts test",
+  "eject": "react-scripts eject",
+  "vercel-build": "react-scripts build"
+},
   "devDependencies": {
     "react-scripts": "^5.0.1"
   },
